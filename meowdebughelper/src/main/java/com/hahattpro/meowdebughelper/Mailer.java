@@ -10,9 +10,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 
-/**
- * Created by Thien on 7/28/2015.
- */
+
 public class Mailer {
 
     Context context;

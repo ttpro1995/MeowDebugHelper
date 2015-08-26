@@ -8,10 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-/**
- * Created by haha on 5/6/2015.
- */
-
 
 /**
  * Create new file.
