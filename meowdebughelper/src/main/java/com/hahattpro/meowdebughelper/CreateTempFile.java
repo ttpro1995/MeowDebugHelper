@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 
@@ -15,16 +17,17 @@ import java.io.OutputStreamWriter;
  * contructor take FILE_NAME, what in that file, context of activity
  *
  */
-public class CreateFile {
+public class CreateTempFile {
     private File file;//contain file
     private String FILE_NAME;//name of file
     private Context context;// context from activity
-    public CreateFile(String NAME, String file_body, Context appContext) {
+    public CreateTempFile(String NAME, String file_body, Context appContext) {
         FILE_NAME =NAME;
     context = appContext;
 
         try{
-            FileOutputStream out = context.openFileOutput(FILE_NAME,0);
+            file = new File(context.getExternalCacheDir(),FILE_NAME);
+            FileOutputStream out = new FileOutputStream(file);
             OutputStreamWriter writer = new OutputStreamWriter(out);
             writer.write(file_body);
             writer.close();
@@ -36,13 +39,41 @@ public class CreateFile {
         catch (IOException e){
             //do nothing
         }
+    }
 
-        file = context.getFileStreamPath(FILE_NAME);//put into file
+    public CreateTempFile(String NAME, InputStream file_body, Context appContext) {
+        FILE_NAME =NAME;
+        context = appContext;
+
+        try{
+            file = new File(context.getExternalCacheDir(),FILE_NAME);
+            copy(file_body,file);
+        }
+        catch (FileNotFoundException e){
+
+        }
+        catch (IOException e){
+            //do nothing
+        }
     }
 
     public File getFile()
     {//getter
         return file;
+    }
+
+    public static void copy(InputStream in, File dst) throws IOException {
+
+        OutputStream out = new FileOutputStream(dst);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 
     void CleanUp()

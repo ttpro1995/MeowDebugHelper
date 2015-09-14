@@ -1,16 +1,40 @@
 package com.hahattpro.meowdebughelperdemo;
 
+import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hahattpro.meowdebughelper.CreateTempFile;
+import com.hahattpro.meowdebughelper.Mailer;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity {
+
+    InputStream is;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mailFromAssets();
+    }
+
+    private void mailFromAssets(){
+        AssetManager assetManager = getAssets();
+        try {
+            is = assetManager.open("winter_is_coming.jpg");
+            CreateTempFile tempFile = new CreateTempFile("winter_is_coming.jpg",is,MainActivity.this);
+            File file = tempFile.getFile();
+            Mailer mailer = new Mailer(this);
+            mailer.SendMail("testing.ttpro1995@yahoo.com.vn","winter_is_coming","meow meow",file);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
