@@ -3,6 +3,7 @@ package com.hahattpro.meowdebughelper;
 import android.content.Context;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class CreateTempFile {
 
         try{
             file = new File(context.getExternalCacheDir(),FILE_NAME);
-            copy(file_body,file);
+            copy(file_body, file);
         }
         catch (FileNotFoundException e){
 
@@ -56,6 +57,44 @@ public class CreateTempFile {
             //do nothing
         }
     }
+
+    private static File create(String NAME, InputStream file_body, Context appContext){
+       File file= null;
+
+        try{
+            file = new File(appContext.getExternalCacheDir(),NAME);
+            copy(file_body, file);
+        }
+        catch (FileNotFoundException e){
+
+        }
+        catch (IOException e){
+            //do nothing
+        }
+        return file;
+    }
+
+    public static File create(String NAME, String file_body, Context appContext) {
+        String FILE_NAME =NAME;
+        Context context = appContext;
+        File file = null;
+        try{
+            file = new File(context.getExternalCacheDir(),FILE_NAME);
+            FileOutputStream out = new FileOutputStream(file);
+            OutputStreamWriter writer = new OutputStreamWriter(out);
+            writer.write(file_body);
+            writer.close();
+            out.close();
+        }
+        catch (FileNotFoundException e){
+
+        }
+        catch (IOException e){
+            //do nothing
+        }
+        return file;
+    }
+
 
     public File getFile()
     {//getter
