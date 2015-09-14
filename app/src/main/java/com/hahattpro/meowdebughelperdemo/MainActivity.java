@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
             is = assetManager.open("winter_is_coming.jpg");
             CreateTempFile tempFile = new CreateTempFile("winter_is_coming.jpg",is,MainActivity.this);
             File file = tempFile.getFile();
-            Mailer mailer = new Mailer(this);
-            mailer.sendMail("testing.ttpro1995@yahoo.com.vn","winter_is_coming","meow meow",file);
+
+            Mailer.send(MainActivity.this,"testing.ttpro1995@yahoo.com.vn", "winter_is_coming", "meow meow", file);
         }catch (IOException e){
             e.printStackTrace();
         }
